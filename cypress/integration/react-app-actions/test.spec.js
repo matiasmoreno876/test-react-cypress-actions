@@ -2,7 +2,7 @@
 
 context('Actions', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3000/')
+        cy.visit('http://192.168.100.24/')
     })
 
     it('Elements visible in the Dom', () => {
