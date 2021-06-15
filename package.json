@@ -18,7 +18,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "test:chrome": "cypress run --browser chrome",
-    "combine:report": "mochawesome-merge ./mochawesome-report/*.json -o index.json",
+    "combine:report": "mochawesome-merge cypress/results/json/*.json > index.json",
     "generate:report": "marge index.json --reportDir public --assetsDir public/assets --reportPageTitle index.html"
   },
   "eslintConfig": {
@@ -40,6 +40,8 @@
     ]
   },
   "devDependencies": {
+    "cypress-multi-reporters": "^1.5.0",
+    "mocha": "^9.0.0",
     "mochawesome": "^6.2.2",
     "mochawesome-merge": "^4.2.0",
     "mochawesome-report-generator": "^5.2.0"
