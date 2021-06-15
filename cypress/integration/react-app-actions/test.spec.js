@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-context('Actions', () => {
+context('Test Elements visible in DOM', () => {
     beforeEach(() => {
         cy.visit('http://192.168.100.24/')
     })
