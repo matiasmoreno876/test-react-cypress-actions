@@ -5,7 +5,7 @@ context('Test Elements visible in DOM', () => {
         cy.visit('http://192.168.100.24/')
     })
 
-    it('Elements visible in the Dom', () => {
+    it('Link visible in the Dom and have text: "Learn React"', () => {
         cy.get('.App-link')
             .should('exist')
             .should('be.visible')
