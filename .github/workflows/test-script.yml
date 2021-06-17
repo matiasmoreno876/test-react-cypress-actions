@@ -19,6 +19,4 @@ jobs:
      - name: run-script
        run: |
         cd /home/matias/Documentos/bin
-        pwd
-        ls -a
         bash my-shell Matias
