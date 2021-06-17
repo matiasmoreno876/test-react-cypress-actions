@@ -19,4 +19,4 @@ jobs:
      - name: run-script
        run: |
         cd /home/matias/Documentos/bin
-        bash my-shell Matias ${{ secrets.MI_SECRETO }}
+        sudo bash my-shell
