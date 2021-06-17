@@ -6,10 +6,10 @@ name: Run Cypress Automation Test
 on:
   push:
     branches:
-      - 'master'
+      - 'disable'
   pull_request:
     branches:
-      - 'master'
+      - 'disable'
 
 jobs:
   cypress-test:
