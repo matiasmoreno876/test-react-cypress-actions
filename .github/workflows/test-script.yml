@@ -5,10 +5,12 @@ name: Run bash environment
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - 'master'
   pull_request:
-    branches: [ master ]
-
+    branches:
+      - 'master'
+      
 jobs:
   run-shell:
     name: run shell script
