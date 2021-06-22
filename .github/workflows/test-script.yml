@@ -20,8 +20,14 @@ jobs:
        run: |
         cd /home/matias/Documentos/MaquinasVirtuales/Docker/docker-environments/templates_elastic_prod/es_basic-wz_cluster-agent
         docker-compose up -d
-     - name: Stoping containers
+     - name: Building package
+       run: |
+        cd /home/matias/Documentos
+        git clone https://github.com/wazuh/wazuh-packages && cd wazuh-packages/wazuhapp
+        git checkout 4.2
+        ./generate_wazuh_app.sh -b v4.2.0-7.10.2 -s /home/matias/Documentos/MaquinasVirtuales/Docker/docker-environments/packages -r 1
+     - name: Installing package
        run: |
         cd /home/matias/Documentos/MaquinasVirtuales/Docker/docker-environments/templates_elastic_prod/es_basic-wz_cluster-agent
-        docker-compose stop
-        
+        docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/wazuh_kibana-4.2.0_7.10.2-1.zip
+        docker-compose restart kibana
