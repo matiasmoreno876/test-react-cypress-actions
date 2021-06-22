@@ -12,22 +12,31 @@ on:
       - 'master'
       
 jobs:
-  run-shell:
-    name: run shell script
+  setup-wazuh-kibana-app:
+    name: Run setup environment wazuh kibana app
     runs-on: self-hosted
     steps:
+     - name: Download templates docker environment
+       run: |
+        mkdir /home/matias/Documentos/github-actions-workflow/
+        cd /home/matias/Documentos/github-actions-workflow/
+        git clone git@github.com:frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
+        mkdir packages
+     - name: Setup environment variables
+       run: |
+        echo AQUI CONFIGURAMOS TODAS NUESTRAS VARIABLES
      - name: Starting containers
        run: |
-        cd /home/matias/Documentos/MaquinasVirtuales/Docker/docker-environments/templates_elastic_prod/es_basic-wz_cluster-agent
+        cd /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
         docker-compose up -d
      - name: Building package
        run: |
-        cd /home/matias/Documentos
+        cd /home/matias/Documentos/github-actions-workflow/
         git clone https://github.com/wazuh/wazuh-packages && cd wazuh-packages/wazuhapp
         git checkout 4.2
-        ./generate_wazuh_app.sh -b v4.2.0-7.10.2 -s /home/matias/Documentos/MaquinasVirtuales/Docker/docker-environments/packages -r 1
+        ./generate_wazuh_app.sh -b v4.2.0-7.10.2 -s /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/packages -r 1
      - name: Installing package
        run: |
-        cd /home/matias/Documentos/MaquinasVirtuales/Docker/docker-environments/templates_elastic_prod/es_basic-wz_cluster-agent
+        cd /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
         docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/wazuh_kibana-4.2.0_7.10.2-1.zip
         docker-compose restart kibana
