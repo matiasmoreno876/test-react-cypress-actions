@@ -16,7 +16,12 @@ jobs:
     name: run shell script
     runs-on: self-hosted
     steps:
-     - name: run-script
+     - name: Starting containers
        run: |
-        cd /home/matias/Documentos/bin
-        sudo bash my-shell
+        cd /home/matias/Documentos/MaquinasVirtuales/Docker/docker-environments/templates_elastic_prod/es_basic-wz_cluster-agent
+        docker-compose up -d
+     - name: Stoping containers
+       run: |
+        cd /home/matias/Documentos/MaquinasVirtuales/Docker/docker-environments/templates_elastic_prod/es_basic-wz_cluster-agent
+        docker-compose stop
+        
