@@ -21,12 +21,18 @@ jobs:
         echo AQUI CONFIGURAMOS TODAS NUESTRAS VARIABLES
         echo head ref: ${{ github.head_ref }}
         echo base ref: ${{ github.base_ref }}
-        echo seteo la variable:
         echo "MIVARIABLE=variable compartida " >> $GITHUB_ENV
-        echo base ref: ${{ env.MIVARIABLE }}
+        echo "MIVARIABLE2=variable compartida 2" >> $GITHUB_ENV
+        echo base ref: ${{ env.MIVARIABLE }} ${{ env.MIVARIABLE2 }}
+     - name: Muestro las variable step 1
+       run: |
+        echo Muestro las variable step 1: ${{ env.MIVARIABLE }} ${{ env.MIVARIABLE2 }}
+     - name: Muestro las variable step 2
+       run: |
+        echo Muestro las variable step 2: ${{ env.MIVARIABLE }} ${{ env.MIVARIABLE2 }}
      - name: Download templates docker environment
        run: |
-        echo base ref: ${{ env.MIVARIABLE }}
+        echo Muestro las variable step 3: ${{ env.MIVARIABLE }} ${{ env.MIVARIABLE2 }}
         mkdir /home/matias/Documentos/github-actions-workflow/
         cd /home/matias/Documentos/github-actions-workflow/
         git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
