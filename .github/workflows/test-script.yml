@@ -17,12 +17,12 @@ jobs:
     runs-on: self-hosted
     steps:
      - name: Setup environment variables
-       env:
-        MIVARIABLE: mi valor
        run: |
         echo AQUI CONFIGURAMOS TODAS NUESTRAS VARIABLES
         echo head ref: ${{ github.head_ref }}
         echo base ref: ${{ github.base_ref }}
+        echo seteo la variable:
+        echo "MIVARIABLE=variable compartida " >> $GITHUB_ENV
         echo base ref: ${{ env.MIVARIABLE }}
      - name: Download templates docker environment
        run: |
