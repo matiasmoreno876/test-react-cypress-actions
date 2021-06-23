@@ -16,15 +16,17 @@ jobs:
     name: Run setup environment wazuh kibana app
     runs-on: self-hosted
     steps:
+     - name: Setup environment variables
+       run: |
+        echo AQUI CONFIGURAMOS TODAS NUESTRAS VARIABLES
+        echo head ref: ${{ github.head_ref }}
+        echo base ref: ${{ github.base_ref }}
      - name: Download templates docker environment
        run: |
         mkdir /home/matias/Documentos/github-actions-workflow/
         cd /home/matias/Documentos/github-actions-workflow/
         git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
         mkdir packages
-     - name: Setup environment variables
-       run: |
-        echo AQUI CONFIGURAMOS TODAS NUESTRAS VARIABLES
      - name: Starting containers
        run: |
         cd /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
