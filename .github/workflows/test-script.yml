@@ -10,7 +10,10 @@ on:
   pull_request:
     branches:
       - 'master'
-      
+
+env:
+  MIVARIABLE: mi valor
+  
 jobs:
   setup-wazuh-kibana-app:
     name: Run setup environment wazuh kibana app
@@ -21,6 +24,7 @@ jobs:
         echo AQUI CONFIGURAMOS TODAS NUESTRAS VARIABLES
         echo head ref: ${{ github.head_ref }}
         echo base ref: ${{ github.base_ref }}
+        echo base ref: ${{ MIVARIABLE }}
      - name: Download templates docker environment
        run: |
         mkdir /home/matias/Documentos/github-actions-workflow/
