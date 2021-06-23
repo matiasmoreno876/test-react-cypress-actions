@@ -19,20 +19,24 @@ jobs:
      - name: Setup environment variables
        run: |
         echo AQUI CONFIGURAMOS TODAS NUESTRAS VARIABLES
+        
         echo head ref: ${{ github.head_ref }}
         echo base ref: ${{ github.base_ref }}
-        echo "MIVARIABLE=variable compartida " >> $GITHUB_ENV
-        echo "MIVARIABLE2=variable compartida 2" >> $GITHUB_ENV
-        echo base ref: ${{ env.MIVARIABLE }} ${{ env.MIVARIABLE2 }}
+        
+        echo "WAZUH_MANAGER_IMAGE=wazuh_manager_filebeat_sources_cmake" >> $GITHUB_ENV
+        echo "WAZUH_AGENT_IMAGE=wazuh_agent_ubuntu_sources_cmake" >> $GITHUB_ENV
+        echo "WAZUH_VERSION=v4.2.0-rc4" >> $GITHUB_ENV
+        echo "ELASTIC_VERSION=7.10.2" >> $GITHUB_ENV
+
      - name: Muestro las variable step 1
        run: |
-        echo Muestro las variable step 1: ${{ env.MIVARIABLE }} ${{ env.MIVARIABLE2 }}
+        echo Muestro las variable step 1: ${{ env.MIVARIABLE }} ${{ env.MIVARIABLE2 }} ${{ env.WAZUH_MANAGER_IMAGE }} ${{ env.ELASTIC_VERSION }}
      - name: Muestro las variable step 2
        run: |
-        echo Muestro las variable step 2: ${{ env.MIVARIABLE }} ${{ env.MIVARIABLE2 }}
+        echo Muestro las variable step 2: ${{ env.MIVARIABLE }} ${{ env.MIVARIABLE2 }} ${{ env.WAZUH_MANAGER_IMAGE }} ${{ env.ELASTIC_VERSION }}
      - name: Download templates docker environment
        run: |
-        echo Muestro las variable step 3: ${{ env.MIVARIABLE }} ${{ env.MIVARIABLE2 }}
+        echo Muestro las variable step 3: ${{ env.MIVARIABLE }} ${{ env.MIVARIABLE2 }} ${{ env.WAZUH_MANAGER_IMAGE }} ${{ env.ELASTIC_VERSION }}
         mkdir /home/matias/Documentos/github-actions-workflow/
         cd /home/matias/Documentos/github-actions-workflow/
         git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
