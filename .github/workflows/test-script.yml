@@ -23,10 +23,10 @@ jobs:
         echo AQUI CONFIGURAMOS TODAS NUESTRAS VARIABLES
         echo head ref: ${{ github.head_ref }}
         echo base ref: ${{ github.base_ref }}
-        echo base ref: ${{ MIVARIABLE }}
+        echo base ref: ${{ env.MIVARIABLE }}
      - name: Download templates docker environment
        run: |
-        echo base ref: ${{ MIVARIABLE }}
+        echo base ref: ${{ env.MIVARIABLE }}
         mkdir /home/matias/Documentos/github-actions-workflow/
         cd /home/matias/Documentos/github-actions-workflow/
         git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
