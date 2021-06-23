@@ -10,9 +10,6 @@ on:
   pull_request:
     branches:
       - 'master'
-
-env:
-  MIVARIABLE: mi valor
   
 jobs:
   setup-wazuh-kibana-app:
@@ -20,6 +17,8 @@ jobs:
     runs-on: self-hosted
     steps:
      - name: Setup environment variables
+       env:
+        MIVARIABLE: mi valor
        run: |
         echo AQUI CONFIGURAMOS TODAS NUESTRAS VARIABLES
         echo head ref: ${{ github.head_ref }}
@@ -27,6 +26,7 @@ jobs:
         echo base ref: ${{ MIVARIABLE }}
      - name: Download templates docker environment
        run: |
+        echo base ref: ${{ MIVARIABLE }}
         mkdir /home/matias/Documentos/github-actions-workflow/
         cd /home/matias/Documentos/github-actions-workflow/
         git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
