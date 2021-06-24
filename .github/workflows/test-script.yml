@@ -21,7 +21,7 @@ jobs:
         IP_CONTAINER_MANAGER=$(docker exec es_basic-wz_cluster-agent_wazuh-manager-master_1 hostname -i)
         echo=${IP_CONTAINER_MANAGER}
         docker exec es_basic-wz_cluster-agent_kibana_1 cat ./data/wazuh/config/wazuh.yml
-        docker exec es_basic-wz_cluster-agent_kibana_1 sed -i -e 's/url: https:\/\/localhost/url: https:${IP_CONTAINER_MANAGER}/g' ./data/wazuh/config/wazuh.yml
+        docker exec es_basic-wz_cluster-agent_kibana_1 sed -i -e "s/url: https:\/\/localhost/url: https:${IP_CONTAINER_MANAGER}/g" ./data/wazuh/config/wazuh.yml
         docker exec es_basic-wz_cluster-agent_kibana_1 cat ./data/wazuh/config/wazuh.yml
      - name: Setup environment variables
        run: |
