@@ -23,17 +23,22 @@ jobs:
         echo head ref: ${{ github.head_ref }}
         echo base ref: ${{ github.base_ref }}
         
-        echo "WAZUH_HEAD_BRANCH=bugfix/3070-wrong-suggestions-badges-agents-table" >> $GITHUB_ENV
+        echo "WAZUH_HEAD_BRANCH=Add-tab-to-manage-outdated-agents-and-upgrade" >> $GITHUB_ENV
         echo "WAZUH_BASE_BRANCH=4.2-7.10" >> $GITHUB_ENV
         
         echo "WAZUH_MANAGER_IMAGE=wazuh_manager_filebeat_sources_cmake" >> $GITHUB_ENV
         echo "WAZUH_AGENT_IMAGE=wazuh_agent_ubuntu_sources_cmake" >> $GITHUB_ENV
         echo "WAZUH_VERSION=v4.2.0-rc4" >> $GITHUB_ENV
         echo "ELASTIC_VERSION=7.10.2" >> $GITHUB_ENV
+        
+        echo "BASE_PATH_WORKING_DIR=/home/matias/Documentos/" >> $GITHUB_ENV
+        echo "WORKING_DIR=github-actions-workflow" >> $GITHUB_ENV
+        
      - name: Download templates docker environment
        run: |
-        mkdir /home/matias/Documentos/github-actions-workflow/
-        cd /home/matias/Documentos/github-actions-workflow/
+        if [ -d "${{ env.WORKING_DIR }}" ]; then rm -rfv ${{ env.WORKING_DIR }}; fi
+        mkdir ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}
+        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}
         git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
         mkdir packages
      - name: Configuring templates docker environment
