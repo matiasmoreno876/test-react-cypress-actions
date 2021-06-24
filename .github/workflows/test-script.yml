@@ -69,6 +69,8 @@ jobs:
         cd /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
         docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/${PACKAGE_NAME}
         docker-compose restart kibana
+        echo CONTINUA DESPUES DE 20 SEGUNDOS ...
+        sleep 20s
      - name: Configuring ip container into wazuh.yml
        run: |
         IP_CONTAINER_MANAGER=$(docker exec es_basic-wz_cluster-agent_wazuh-manager-master_1 hostname -i)
