@@ -78,3 +78,7 @@ jobs:
         docker exec es_basic-wz_cluster-agent_kibana_1 cat ./data/wazuh/config/wazuh.yml
         docker exec es_basic-wz_cluster-agent_kibana_1 sed -i -e "s/url: https:\/\/localhost/url: https:\/\/${IP_CONTAINER_MANAGER}/g" ./data/wazuh/config/wazuh.yml
         docker exec es_basic-wz_cluster-agent_kibana_1 cat ./data/wazuh/config/wazuh.yml
+     - name: Step 08 - Run Cypress test
+       run: |
+        echo CONFIGURAR CYPRESS.
+        sleep 65s
