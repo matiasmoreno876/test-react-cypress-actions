@@ -46,15 +46,15 @@ jobs:
         echo Configurando .env
         cd /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
         cat .env
-        sed -i -e 's/WAZUH_MANAGER_IMAGE=.*/WAZUH_MANAGER_IMAGE=wazuh_manager_filebeat_sources_cmake/g' /Users/matias/Desktop/env.txt
-        sed -i -e 's/WAZUH_AGENT_IMAGE=.*/WAZUH_AGENT_IMAGE=wazuh_agent_ubuntu_sources_cmake/g' /Users/matias/Desktop/env.txt
-        sed -i -e 's/WAZUH_VERSION=.*/WAZUH_VERSION=v4.2.0-rc4/g' /Users/matias/Desktop/env.txt
-        sed -i -e 's/ELASTIC_VERSION=.*/ELASTIC_VERSION=7.10.2/g' /Users/matias/Desktop/env.txt
+        sed -i -e 's/WAZUH_MANAGER_IMAGE=.*/WAZUH_MANAGER_IMAGE=wazuh_manager_filebeat_sources_cmake/g' ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
+        sed -i -e 's/WAZUH_AGENT_IMAGE=.*/WAZUH_AGENT_IMAGE=wazuh_agent_ubuntu_sources_cmake/g' ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
+        sed -i -e 's/WAZUH_VERSION=.*/WAZUH_VERSION=v4.2.0-rc4/g' ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
+        sed -i -e 's/ELASTIC_VERSION=.*/ELASTIC_VERSION=7.10.2/g' ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
         echo CONFIGURADO CORRECTAMENTE .env
         cat .env
      - name: Starting containers
        run: |
-        cd /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
+        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
         docker-compose up -d
      - name: Building package
        run: |
