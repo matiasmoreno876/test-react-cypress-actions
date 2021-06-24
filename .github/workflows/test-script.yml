@@ -23,24 +23,22 @@ jobs:
         echo head ref: ${{ github.head_ref }}
         echo base ref: ${{ github.base_ref }}
         
+        echo "WAZUH_HEAD_BRANCH=bugfix/3070-wrong-suggestions-badges-agents-table" >> $GITHUB_ENV
+        echo "WAZUH_BASE_BRANCH=4.2-7.10" >> $GITHUB_ENV
+        
         echo "WAZUH_MANAGER_IMAGE=wazuh_manager_filebeat_sources_cmake" >> $GITHUB_ENV
         echo "WAZUH_AGENT_IMAGE=wazuh_agent_ubuntu_sources_cmake" >> $GITHUB_ENV
         echo "WAZUH_VERSION=v4.2.0-rc4" >> $GITHUB_ENV
         echo "ELASTIC_VERSION=7.10.2" >> $GITHUB_ENV
-
-     - name: Muestro las variable step 1
-       run: |
-        echo Muestro las variable step 1: ${{ env.MIVARIABLE }} ${{ env.MIVARIABLE2 }} ${{ env.WAZUH_MANAGER_IMAGE }} ${{ env.ELASTIC_VERSION }}
-     - name: Muestro las variable step 2
-       run: |
-        echo Muestro las variable step 2: ${{ env.MIVARIABLE }} ${{ env.MIVARIABLE2 }} ${{ env.WAZUH_MANAGER_IMAGE }} ${{ env.ELASTIC_VERSION }}
      - name: Download templates docker environment
        run: |
-        echo Muestro las variable step 3: ${{ env.MIVARIABLE }} ${{ env.MIVARIABLE2 }} ${{ env.WAZUH_MANAGER_IMAGE }} ${{ env.ELASTIC_VERSION }}
         mkdir /home/matias/Documentos/github-actions-workflow/
         cd /home/matias/Documentos/github-actions-workflow/
         git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
         mkdir packages
+     - name: Configuring templates docker environment
+       run: |
+        echo acá configuramos todas nuestras variables en los archivos .env de los templates: ${{ env.WAZUH_HEAD_BRANCH }} ${{ env.WAZUH_BASE_BRANCH }}
      - name: Starting containers
        run: |
         cd /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
@@ -50,9 +48,9 @@ jobs:
         cd /home/matias/Documentos/github-actions-workflow/
         git clone https://github.com/wazuh/wazuh-packages && cd wazuh-packages/wazuhapp
         git checkout 4.2
-        ./generate_wazuh_app.sh -b v4.2.0-7.10.2 -s /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/packages -r 1
+        ./generate_wazuh_app.sh -b ${{ env.WAZUH_HEAD_BRANCH }} -s /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/packages -r 1
      - name: Installing package
        run: |
         cd /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
-        docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/wazuh_kibana-4.2.0_7.10.2-1.zip
+        docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/${{ env.WAZUH_HEAD_BRANCH }}.zip
         docker-compose restart kibana
