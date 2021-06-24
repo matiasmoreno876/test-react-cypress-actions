@@ -16,7 +16,7 @@ jobs:
     name: Run setup environment wazuh kibana app
     runs-on: self-hosted
     steps:
-     - name: Setup environment variables
+     - name: Step 01 - Set up environment variables
        run: |
         echo AQUI CONFIGURAMOS TODAS NUESTRAS VARIABLES
         
@@ -34,14 +34,14 @@ jobs:
         echo "BASE_PATH_WORKING_DIR=/home/matias/Documentos/" >> $GITHUB_ENV
         echo "WORKING_DIR=github-actions-workflow" >> $GITHUB_ENV
         
-     - name: Download templates docker environment
+     - name: Step 02 - Download templates docker environment
        run: |
         if [ -d "${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}" ]; then rm -rfv ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}; fi
         mkdir ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}
         cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}
         git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
         mkdir packages
-     - name: Configuring templates docker environment
+     - name: Step 03 - Configuring templates docker environment
        run: |
         echo Configurando .env
         cd /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
@@ -52,17 +52,17 @@ jobs:
         sed -i -e 's/ELASTIC_VERSION=.*/ELASTIC_VERSION=7.10.2/g' ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
         echo CONFIGURADO CORRECTAMENTE .env
         cat .env
-     - name: Starting containers
+     - name: Step 04 - Starting containers
        run: |
         cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
         docker-compose up -d
-     - name: Building package
+     - name: Step 05 - Building package
        run: |
         cd /home/matias/Documentos/github-actions-workflow/
         git clone https://github.com/wazuh/wazuh-packages && cd wazuh-packages/wazuhapp
         git checkout 4.2
         ./generate_wazuh_app.sh -b ${{ env.WAZUH_HEAD_BRANCH }} -s /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/packages -r 1
-     - name: Installing package
+     - name: Step 06 - Installing package
        run: |
         cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/packages/
         PACKAGE_NAME=`ls *.zip`
@@ -71,7 +71,7 @@ jobs:
         docker-compose restart kibana
         echo CONTINUA DESPUES DE 20 SEGUNDOS ...
         sleep 20s
-     - name: Configuring ip container into wazuh.yml
+     - name: Step 07 - Configuring ip container into wazuh.yml
        run: |
         IP_CONTAINER_MANAGER=$(docker exec es_basic-wz_cluster-agent_wazuh-manager-master_1 hostname -i)
         echo=${IP_CONTAINER_MANAGER}
