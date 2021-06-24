@@ -56,6 +56,8 @@ jobs:
         ./generate_wazuh_app.sh -b ${{ env.WAZUH_HEAD_BRANCH }} -s /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/packages -r 1
      - name: Installing package
        run: |
+        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/packages/
+        PACKAGE_NAME=`ls *.zip`
         cd /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
-        docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/${{ env.WAZUH_HEAD_BRANCH }}.zip
+        docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/${PACKAGE_NAME}
         docker-compose restart kibana
