@@ -44,7 +44,8 @@ jobs:
      - name: Step 03 - Configuring templates docker environment
        run: |
         pwd
-        cd ./templates_elastic_prod/es_basic-wz_cluster-agent
+        ls -a
+        cd ./wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
         cat .env
         sed -i -e 's/WAZUH_MANAGER_IMAGE=.*/WAZUH_MANAGER_IMAGE=wazuh_manager_filebeat_sources_cmake/g' ./.env
         sed -i -e 's/WAZUH_AGENT_IMAGE=.*/WAZUH_AGENT_IMAGE=wazuh_agent_ubuntu_sources_cmake/g' ./.env
