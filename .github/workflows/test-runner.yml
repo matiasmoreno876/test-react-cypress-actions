@@ -33,24 +33,21 @@ jobs:
         echo "WAZUH_VERSION=v4.2.0-rc4" >> $GITHUB_ENV
         echo "ELASTIC_VERSION=7.10.2" >> $GITHUB_ENV
         
-        echo "BASE_PATH_WORKING_DIR=$(pwd)" >> $GITHUB_ENV
+        echo "BASE_PATH_WORKING_DIR=" >> $GITHUB_ENV
         echo "WORKING_DIR=github-actions-workflow" >> $GITHUB_ENV
         
      - name: Step 02 - Download templates docker environment
        run: |
-        mkdir ${{ env.WORKING_DIR }}
-        cd {{ env.WORKING_DIR }}
         git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
         mkdir packages
      - name: Step 03 - Configuring templates docker environment
        run: |
-        echo Configurando .env
-        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
+        cd templates_elastic_prod/es_basic-wz_cluster-agent
         cat .env
-        sed -i -e 's/WAZUH_MANAGER_IMAGE=.*/WAZUH_MANAGER_IMAGE=wazuh_manager_filebeat_sources_cmake/g' ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
-        sed -i -e 's/WAZUH_AGENT_IMAGE=.*/WAZUH_AGENT_IMAGE=wazuh_agent_ubuntu_sources_cmake/g' ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
-        sed -i -e 's/WAZUH_VERSION=.*/WAZUH_VERSION=v4.2.0-rc4/g' ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
-        sed -i -e 's/ELASTIC_VERSION=.*/ELASTIC_VERSION=7.10.2/g' ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
+        sed -i -e 's/WAZUH_MANAGER_IMAGE=.*/WAZUH_MANAGER_IMAGE=wazuh_manager_filebeat_sources_cmake/g' ./.env
+        sed -i -e 's/WAZUH_AGENT_IMAGE=.*/WAZUH_AGENT_IMAGE=wazuh_agent_ubuntu_sources_cmake/g' ./.env
+        sed -i -e 's/WAZUH_VERSION=.*/WAZUH_VERSION=v4.2.0-rc4/g' ./.env
+        sed -i -e 's/ELASTIC_VERSION=.*/ELASTIC_VERSION=7.10.2/g' ./.env
         echo CONFIGURADO CORRECTAMENTE .env
         cat .env
      - name: Step 04 - Starting containers
