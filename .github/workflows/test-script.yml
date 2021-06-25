@@ -6,10 +6,10 @@ name: Run bash environment
 on:
   push:
     branches:
-      - 'master'
+      - 'disable'
   pull_request:
     branches:
-      - 'master'
+      - 'disable'
   
 jobs:
   setup-wazuh-kibana-app:
@@ -33,7 +33,7 @@ jobs:
         echo "WAZUH_VERSION=v4.2.0-rc4" >> $GITHUB_ENV
         echo "ELASTIC_VERSION=7.10.2" >> $GITHUB_ENV
         
-        echo "BASE_PATH_WORKING_DIR=" >> $GITHUB_ENV
+        echo "BASE_PATH_WORKING_DIR=/home/matias/Documentos/" >> $GITHUB_ENV
         echo "WORKING_DIR=github-actions-workflow" >> $GITHUB_ENV
         
      - name: Step 02 - Download templates docker environment
