@@ -55,19 +55,19 @@ jobs:
         cat .env
      - name: Step 04 - Starting containers
        run: |
-        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
+        cd ./wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
         docker-compose up -d
      - name: Step 05 - Building package
        run: |
-        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}
         git clone https://github.com/wazuh/wazuh-packages && cd wazuh-packages/wazuhapp
         git checkout 4.2
-        ./generate_wazuh_app.sh -b ${{ env.WAZUH_HEAD_BRANCH }} -s /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/packages -r 1
+        ./generate_wazuh_app.sh -b ${{ env.WAZUH_HEAD_BRANCH }} -s ./wazuh-app-environments/packages -r 1
      - name: Step 06 - Installing package
        run: |
-        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/packages/
+        cd ./wazuh-app-environments/packages/
         PACKAGE_NAME=`ls *.zip`
-        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
+        cd ..
+        cd ./templates_elastic_prod/es_basic-wz_cluster-agent
         docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/${PACKAGE_NAME}
         docker-compose restart kibana
         echo CONTINUA DESPUES DE 20 SEGUNDOS ...
