@@ -41,6 +41,10 @@ jobs:
         git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
         mkdir packages
         pwd
+        echo "${{ github.event_path }}"
+        echo "${{ github.workflow }}"
+        echo "${{ github.action_path }}"
+        echo "${{ runner.temp }}"
      - name: Step 03 - Configuring templates docker environment
        run: |
         pwd
