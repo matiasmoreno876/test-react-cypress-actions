@@ -15,6 +15,7 @@ jobs:
   setup-wazuh-kibana-app:
     name: Run setup environment wazuh kibana app
     runs-on: self-hosted
+    container: cypress/browsers:node12.18.0-chrome83-ff77
     steps:
      - name: Step 01 - Set up environment variables
        run: |
@@ -78,7 +79,16 @@ jobs:
         docker exec es_basic-wz_cluster-agent_kibana_1 cat ./data/wazuh/config/wazuh.yml
         docker exec es_basic-wz_cluster-agent_kibana_1 sed -i -e "s/url: https:\/\/localhost/url: https:\/\/${IP_CONTAINER_MANAGER}/g" ./data/wazuh/config/wazuh.yml
         docker exec es_basic-wz_cluster-agent_kibana_1 cat ./data/wazuh/config/wazuh.yml
-     - name: Step 08 - Run Cypress test
+     - name: Step 08 - Download Cypress project and install dependency 
        run: |
-        echo CONFIGURAR CYPRESS.
-        sleep 65s
+        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}
+        git clone https://github.com/wazuh/wazuh-qa.git && cd wazuh-qa/
+        git checkout feature/frontend
+        cd tests/frontend/test_kibana_app/
+        npm ci
+        $(npm bin)/cypress verify
+     - name: Step 09 - Run Cypress tests
+       run: |
+         npm run cypress:run
+       continue-on-error: true
+        
