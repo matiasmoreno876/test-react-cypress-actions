@@ -86,7 +86,7 @@ jobs:
         git clone https://github.com/wazuh/wazuh-qa.git && cd wazuh-qa/
         git checkout feature/frontend
         cd tests/frontend/test_kibana_app/
-        npm ci
+        npm install
         $(npm bin)/cypress verify
      - name: Step 09 - Run Cypress tests
        run: |
