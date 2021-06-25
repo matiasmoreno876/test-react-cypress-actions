@@ -50,6 +50,8 @@ jobs:
         
         echo ejecuto el comando: action_path
         echo "${{ github.action_path }}"
+        echo ejecuto el comando: GITHUB_ACTION_PATH
+        echo $GITHUB_ACTION_PATH
         
         echo ejecuto el comando: temp
         echo "${{ runner.temp }}"
@@ -59,6 +61,9 @@ jobs:
         
         echo este es mi workspace: env.GITHUB_WORKSPACE
         echo $GITHUB_WORKSPACE
+        echo este es mi workspace: env.HOME
+        echo $HOME
+        
      - name: Step 03 - Configuring templates docker environment
        run: |
         pwd
