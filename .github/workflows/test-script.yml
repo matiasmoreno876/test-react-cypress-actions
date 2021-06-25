@@ -37,7 +37,6 @@ jobs:
         
      - name: Step 02 - Download templates docker environment
        run: |
-        pwd
         if [ -d "${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}" ]; then rm -rfv ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}; fi
         mkdir ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}
         cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}
