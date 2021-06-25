@@ -32,13 +32,14 @@ jobs:
         echo "WAZUH_VERSION=v4.2.0-rc4" >> $GITHUB_ENV
         echo "ELASTIC_VERSION=7.10.2" >> $GITHUB_ENV
         
-        echo "BASE_PATH_WORKING_DIR=/home/matias/Documentos" >> $GITHUB_ENV
-        echo "WORKING_DIR=/github-actions-workflow" >> $GITHUB_ENV
+        echo "BASE_PATH_WORKING_DIR=/home/matias/Documentos/" >> $GITHUB_ENV
+        echo "WORKING_DIR=github-actions-workflow" >> $GITHUB_ENV
         
      - name: Step 02 - Download templates docker environment
        run: |
         if [ -d "${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}" ]; then rm -rfv ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}; fi
-        mkdir ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/
+        cd ${{ env.BASE_PATH_WORKING_DIR }}
+        mkdir ${{ env.WORKING_DIR }}
         cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}
         git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
         mkdir packages
