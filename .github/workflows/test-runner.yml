@@ -40,15 +40,22 @@ jobs:
        run: |
         git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
         mkdir packages
+        echo ejecuto el comando: pwd
         pwd
+        echo ejecuto el comando: event_path
         echo "${{ github.event_path }}"
+        
+        echo ejecuto el comando: workflow
         echo "${{ github.workflow }}"
+        
+        echo ejecuto el comando: action_path
         echo "${{ github.action_path }}"
+        
+        echo ejecuto el comando: temp
         echo "${{ runner.temp }}"
      - name: Step 03 - Configuring templates docker environment
        run: |
         pwd
-        ls -a
         cd ./wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
         cat .env
         sed -i -e 's/WAZUH_MANAGER_IMAGE=.*/WAZUH_MANAGER_IMAGE=wazuh_manager_filebeat_sources_cmake/g' ./.env
