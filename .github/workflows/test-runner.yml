@@ -56,6 +56,9 @@ jobs:
         
         echo este es mi workspace: env.GITHUB_WORKSPACE
         echo "${{ env.GITHUB_WORKSPACE }}"
+        
+        echo este es mi workspace: env.GITHUB_WORKSPACE
+        echo $GITHUB_WORKSPACE
      - name: Step 03 - Configuring templates docker environment
        run: |
         pwd
