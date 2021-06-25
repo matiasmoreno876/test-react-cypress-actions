@@ -1,0 +1,95 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Run bash environment
+
+on:
+  push:
+    branches:
+      - 'master'
+  pull_request:
+    branches:
+      - 'disable'
+  
+jobs:
+  setup-wazuh-kibana-app:
+    name: Run setup environment wazuh kibana app
+    #runs-on: self-hosted
+    runs-on: ubuntu-18.04
+    #container: cypress/browsers:node12.18.0-chrome83-ff77
+    steps:
+     - name: Step 01 - Set up environment variables
+       run: |
+        echo AQUI CONFIGURAMOS TODAS NUESTRAS VARIABLES
+        
+        echo head ref: ${{ github.head_ref }}
+        echo base ref: ${{ github.base_ref }}
+        
+        echo "WAZUH_HEAD_BRANCH=Add-tab-to-manage-outdated-agents-and-upgrade" >> $GITHUB_ENV
+        echo "WAZUH_BASE_BRANCH=4.2-7.10" >> $GITHUB_ENV
+        
+        echo "WAZUH_MANAGER_IMAGE=wazuh_manager_filebeat_sources_cmake" >> $GITHUB_ENV
+        echo "WAZUH_AGENT_IMAGE=wazuh_agent_ubuntu_sources_cmake" >> $GITHUB_ENV
+        echo "WAZUH_VERSION=v4.2.0-rc4" >> $GITHUB_ENV
+        echo "ELASTIC_VERSION=7.10.2" >> $GITHUB_ENV
+        
+        echo "BASE_PATH_WORKING_DIR=" >> $GITHUB_ENV
+        echo "WORKING_DIR=github-actions-workflow" >> $GITHUB_ENV
+        
+     - name: Step 02 - Download templates docker environment
+       run: |
+        if [ -d "${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}" ]; then rm -rfv ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}; fi
+        cd ${{ env.BASE_PATH_WORKING_DIR }}
+        mkdir ${{ env.WORKING_DIR }}
+        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}
+        git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
+        mkdir packages
+     - name: Step 03 - Configuring templates docker environment
+       run: |
+        echo Configurando .env
+        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
+        cat .env
+        sed -i -e 's/WAZUH_MANAGER_IMAGE=.*/WAZUH_MANAGER_IMAGE=wazuh_manager_filebeat_sources_cmake/g' ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
+        sed -i -e 's/WAZUH_AGENT_IMAGE=.*/WAZUH_AGENT_IMAGE=wazuh_agent_ubuntu_sources_cmake/g' ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
+        sed -i -e 's/WAZUH_VERSION=.*/WAZUH_VERSION=v4.2.0-rc4/g' ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
+        sed -i -e 's/ELASTIC_VERSION=.*/ELASTIC_VERSION=7.10.2/g' ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
+        echo CONFIGURADO CORRECTAMENTE .env
+        cat .env
+     - name: Step 04 - Starting containers
+       run: |
+        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
+        docker-compose up -d
+     - name: Step 05 - Building package
+       run: |
+        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}
+        git clone https://github.com/wazuh/wazuh-packages && cd wazuh-packages/wazuhapp
+        git checkout 4.2
+        ./generate_wazuh_app.sh -b ${{ env.WAZUH_HEAD_BRANCH }} -s /home/matias/Documentos/github-actions-workflow/wazuh-app-environments/packages -r 1
+     - name: Step 06 - Installing package
+       run: |
+        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/packages/
+        PACKAGE_NAME=`ls *.zip`
+        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
+        docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/${PACKAGE_NAME}
+        docker-compose restart kibana
+        echo CONTINUA DESPUES DE 20 SEGUNDOS ...
+        sleep 20s
+     - name: Step 07 - Configuring ip container into wazuh.yml
+       run: |
+        IP_CONTAINER_MANAGER=$(docker exec es_basic-wz_cluster-agent_wazuh-manager-master_1 hostname -i)
+        echo=${IP_CONTAINER_MANAGER}
+        docker exec es_basic-wz_cluster-agent_kibana_1 cat ./data/wazuh/config/wazuh.yml
+        docker exec es_basic-wz_cluster-agent_kibana_1 sed -i -e "s/url: https:\/\/localhost/url: https:\/\/${IP_CONTAINER_MANAGER}/g" ./data/wazuh/config/wazuh.yml
+        docker exec es_basic-wz_cluster-agent_kibana_1 cat ./data/wazuh/config/wazuh.yml
+     - name: Step 08 - Download Cypress project and install dependency 
+       run: |
+        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}
+        git clone https://github.com/wazuh/wazuh-qa.git && cd wazuh-qa/
+        git checkout feature/frontend
+        cd tests/frontend/test_kibana_app/
+        npm install
+        npm run cy:install
+        apt-get -y install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+     - name: Step 09 - Run Cypress tests
+       run: |
+         npm run cypress:run
