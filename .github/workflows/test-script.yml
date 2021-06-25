@@ -14,7 +14,8 @@ on:
 jobs:
   setup-wazuh-kibana-app:
     name: Run setup environment wazuh kibana app
-    runs-on: self-hosted
+    #runs-on: self-hosted
+    runs-on: ubuntu-18.04
     #container: cypress/browsers:node12.18.0-chrome83-ff77
     steps:
      - name: Step 01 - Set up environment variables
@@ -32,7 +33,7 @@ jobs:
         echo "WAZUH_VERSION=v4.2.0-rc4" >> $GITHUB_ENV
         echo "ELASTIC_VERSION=7.10.2" >> $GITHUB_ENV
         
-        echo "BASE_PATH_WORKING_DIR=/home/matias/Documentos/" >> $GITHUB_ENV
+        echo "BASE_PATH_WORKING_DIR=/" >> $GITHUB_ENV
         echo "WORKING_DIR=github-actions-workflow" >> $GITHUB_ENV
         
      - name: Step 02 - Download templates docker environment
