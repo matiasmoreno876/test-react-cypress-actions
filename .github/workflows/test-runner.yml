@@ -40,30 +40,6 @@ jobs:
        run: |
         git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
         mkdir packages
-        echo ejecuto el comando: pwd
-        pwd
-        echo ejecuto el comando: event_path
-        echo "${{ github.event_path }}"
-        
-        echo ejecuto el comando: workflow
-        echo "${{ github.workflow }}"
-        
-        echo ejecuto el comando: action_path
-        echo "${{ github.action_path }}"
-        echo ejecuto el comando: GITHUB_ACTION_PATH
-        echo $GITHUB_ACTION_PATH
-        
-        echo ejecuto el comando: temp
-        echo "${{ runner.temp }}"
-        
-        echo este es mi workspace: env.GITHUB_WORKSPACE
-        echo "${{ env.GITHUB_WORKSPACE }}"
-        
-        echo este es mi workspace: env.GITHUB_WORKSPACE
-        echo $GITHUB_WORKSPACE
-        echo este es mi workspace: env.HOME
-        echo $HOME
-        
      - name: Step 03 - Configuring templates docker environment
        run: |
         pwd
@@ -83,13 +59,12 @@ jobs:
        run: |
         git clone https://github.com/wazuh/wazuh-packages && cd wazuh-packages/wazuhapp
         git checkout 4.2
-        ./generate_wazuh_app.sh -b ${{ env.WAZUH_HEAD_BRANCH }} -s ./wazuh-app-environments/packages -r 1
+        ./generate_wazuh_app.sh -b ${{ env.WAZUH_HEAD_BRANCH }} -s $GITHUB_WORKSPACE/wazuh-app-environments/packages -r 1
      - name: Step 06 - Installing package
        run: |
         cd ./wazuh-app-environments/packages/
         PACKAGE_NAME=`ls *.zip`
-        cd ..
-        cd ./templates_elastic_prod/es_basic-wz_cluster-agent
+        cd $GITHUB_WORKSPACE/templates_elastic_prod/es_basic-wz_cluster-agent
         docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/${PACKAGE_NAME}
         docker-compose restart kibana
         echo CONTINUA DESPUES DE 20 SEGUNDOS ...
