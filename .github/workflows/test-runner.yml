@@ -30,6 +30,7 @@ jobs:
        run: |
          cd $GITHUB_WORKSPACE/wazuh-qa/tests/frontend/test_kibana_app/
          npm run cypress:run
+       continue-on-error: true
      - name: Step 10 - Copy test execution videos and screenshots
        run: |
           mkdir -p public/videos
