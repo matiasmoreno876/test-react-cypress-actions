@@ -38,9 +38,13 @@ jobs:
           cp -r $GITHUB_WORKSPACE/wazuh-qa/tests/frontend/test_kibana_app/cypress/report/video $GITHUB_WORKSPACE/public/videos
           cp -r $GITHUB_WORKSPACE/wazuh-qa/tests/frontend/test_kibana_app/cypress/report/screenshots $GITHUB_WORKSPACE/public/screenshots
      - name: Step 11 - Merge test reports
-       run: npm run merge
+       run: |
+        cd $GITHUB_WORKSPACE/wazuh-qa/tests/frontend/test_kibana_app/
+        npm run merge
      - name: Step 12 - Generate HTML report
-       run: npm run generate_mochawesome_report
+       run: |
+        cd $GITHUB_WORKSPACE/wazuh-qa/tests/frontend/test_kibana_app/
+        npm run generate_mochawesome_report
      - name: Step 13 - Deploy report page to GitHub Page
        uses: peaceiris/actions-gh-pages@v3
        with:
