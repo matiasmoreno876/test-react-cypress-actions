@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Run bash environment
+name: Cypress Automation Tests
 
 on:
   push:
@@ -20,8 +20,6 @@ jobs:
     steps:
      - name: Step 01 - Set up environment variables
        run: |
-        echo AQUI CONFIGURAMOS TODAS NUESTRAS VARIABLES
-        
         echo head ref: ${{ github.head_ref }}
         echo base ref: ${{ github.base_ref }}
         
@@ -33,23 +31,17 @@ jobs:
         echo "WAZUH_VERSION=v4.2.0-rc4" >> $GITHUB_ENV
         echo "ELASTIC_VERSION=7.10.2" >> $GITHUB_ENV
         
-        echo "BASE_PATH_WORKING_DIR=" >> $GITHUB_ENV
-        echo "WORKING_DIR=github-actions-workflow" >> $GITHUB_ENV
-        
      - name: Step 02 - Download templates docker environment
        run: |
         git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
         mkdir packages
      - name: Step 03 - Configuring templates docker environment
        run: |
-        pwd
         cd ./wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
-        cat .env
         sed -i -e 's/WAZUH_MANAGER_IMAGE=.*/WAZUH_MANAGER_IMAGE=wazuh_manager_filebeat_sources_cmake/g' ./.env
         sed -i -e 's/WAZUH_AGENT_IMAGE=.*/WAZUH_AGENT_IMAGE=wazuh_agent_ubuntu_sources_cmake/g' ./.env
         sed -i -e 's/WAZUH_VERSION=.*/WAZUH_VERSION=v4.2.0-rc4/g' ./.env
         sed -i -e 's/ELASTIC_VERSION=.*/ELASTIC_VERSION=7.10.2/g' ./.env
-        echo CONFIGURADO CORRECTAMENTE .env
         cat .env
      - name: Step 04 - Starting containers
        run: |
