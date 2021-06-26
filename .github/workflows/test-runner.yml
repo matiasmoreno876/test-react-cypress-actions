@@ -87,3 +87,19 @@ jobs:
        run: |
          cd $GITHUB_WORKSPACE/wazuh-qa/tests/frontend/test_kibana_app/
          npm run cypress:run
+     - name: Step 10 - Copy test execution videos and screenshots
+       run: |
+          mkdir -p public/videos
+          mkdir -p public/screenshots
+          cd $GITHUB_WORKSPACE/wazuh-qa/tests/frontend/test_kibana_app/
+          cp -r cypress/report/videos $GITHUB_WORKSPACE/public/videos
+          cp -r cypress/report/screenshots $GITHUB_WORKSPACE/public/screenshots
+     - name: Step 11 - Merge test reports
+       run: npm run merge
+     - name: Step 12 - Generate HTML report
+       run: npm run generate_mochawesome_report
+     - name: Step 13 - Deploy report page to GitHub Page
+       uses: peaceiris/actions-gh-pages@v3
+       with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
