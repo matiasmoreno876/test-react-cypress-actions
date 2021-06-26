@@ -35,7 +35,7 @@ jobs:
        run: |
           mkdir -p public/videos
           mkdir -p public/screenshots
-          cp -r $GITHUB_WORKSPACE/wazuh-qa/tests/frontend/test_kibana_app/cypress/videos $GITHUB_WORKSPACE/public/videos
+          cp -r $GITHUB_WORKSPACE/wazuh-qa/tests/frontend/test_kibana_app/cypress/report/video $GITHUB_WORKSPACE/public/videos
           cp -r $GITHUB_WORKSPACE/wazuh-qa/tests/frontend/test_kibana_app/cypress/screenshots $GITHUB_WORKSPACE/public/screenshots
      - name: Step 11 - Merge test reports
        run: npm run merge
