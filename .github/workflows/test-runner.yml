@@ -85,4 +85,5 @@ jobs:
         npm run cy:install
      - name: Step 09 - Run Cypress tests
        run: |
+         cd $GITHUB_WORKSPACE/wazuh-qa/tests/frontend/test_kibana_app/
          npm run cypress:run
