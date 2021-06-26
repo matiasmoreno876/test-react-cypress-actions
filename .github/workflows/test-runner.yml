@@ -64,7 +64,7 @@ jobs:
        run: |
         cd ./wazuh-app-environments/packages/
         PACKAGE_NAME=`ls *.zip`
-        cd $GITHUB_WORKSPACE/templates_elastic_prod/es_basic-wz_cluster-agent
+        cd $GITHUB_WORKSPACE/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
         docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/${PACKAGE_NAME}
         docker-compose restart kibana
         echo CONTINUA DESPUES DE 20 SEGUNDOS ...
@@ -78,7 +78,6 @@ jobs:
         docker exec es_basic-wz_cluster-agent_kibana_1 cat ./data/wazuh/config/wazuh.yml
      - name: Step 08 - Download Cypress project and install dependency 
        run: |
-        cd ${{ env.BASE_PATH_WORKING_DIR }}${{ env.WORKING_DIR }}
         git clone https://github.com/wazuh/wazuh-qa.git && cd wazuh-qa/
         git checkout feature/frontend
         cd tests/frontend/test_kibana_app/
