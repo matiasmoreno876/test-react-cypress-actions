@@ -51,6 +51,9 @@ jobs:
        run: |
         git clone https://github.com/wazuh/wazuh-packages && cd wazuh-packages/wazuhapp
         git checkout 4.2
+        echo fixing command...
+        sed -i -e 's/'\|' cut -d \"\/\" \-f2//g' ./generate_wazuh_app.sh 
+        echo run command...
         ./generate_wazuh_app.sh -b ${{ env.WAZUH_HEAD_BRANCH }} -s $GITHUB_WORKSPACE/wazuh-app-environments/packages -r 1
      - name: Step 06 - Installing package
        run: |
