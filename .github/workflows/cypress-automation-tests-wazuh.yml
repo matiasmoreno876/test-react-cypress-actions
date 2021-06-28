@@ -23,7 +23,7 @@ jobs:
         echo head ref: ${{ github.head_ref }}
         echo base ref: ${{ github.base_ref }}
         
-        echo "WAZUH_HEAD_BRANCH=Add-tab-to-manage-outdated-agents-and-upgrade" >> $GITHUB_ENV
+        echo "WAZUH_HEAD_BRANCH=feature/cypress-ci-cd" >> $GITHUB_ENV
         echo "WAZUH_BASE_BRANCH=4.2-7.10" >> $GITHUB_ENV
         
         echo "WAZUH_MANAGER_IMAGE=wazuh_manager_filebeat_sources_cmake" >> $GITHUB_ENV
