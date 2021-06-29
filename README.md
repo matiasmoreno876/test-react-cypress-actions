@@ -9,7 +9,7 @@ In the project directory, you can run:asdasdadasdsqweqweqevssdfsdfdsf
 ### `npm start`werqweqqweqe
 adasdad
 Runs the app in the developmasdasdadaent mode.\qeqweqfd
-Open [http://localhost:3000](http://localhost:3000) to view it in tadsasdasdshe browser.
+Open [http://localhost:3000](http://localhost:3000) to view it in tadsasdasdsheaasdasda browser.
 
 The page will reload if you make editsad
 You will also see any lint errors in the console.
