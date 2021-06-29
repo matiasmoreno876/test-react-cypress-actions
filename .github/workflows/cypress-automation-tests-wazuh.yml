@@ -33,16 +33,9 @@ jobs:
         
         echo "PATH_TEMPLATE_BASIC_CLUSTER_AGENT=$GITHUB_WORKSPACE/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/" >> $GITHUB_ENV
         echo "WAZUH_QA_BRANCH=feature/frontend" >> $GITHUB_ENV
-     - name: Check out my other private repo
-       uses: actions/checkout@master
-       with:
-        repository: frankeros/wazuh-app-environments
-        token: ${{ secrets.TOKEN }}
      - name: Step 02 - Download templates docker environment
        run: |
-        pwd
-        ls -a
-        cd wazuh-app-environments/
+        git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
         mkdir packages
      - name: Step 03 - Configuring templates docker environment
        run: |
