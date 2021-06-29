@@ -26,12 +26,10 @@ jobs:
         echo "WAZUH_BASE_BRANCH=4.2-7.10" >> $GITHUB_ENV
         echo "WAZUH_HEAD_BRANCH=${{ github.head_ref }}" >> $GITHUB_ENV
         
-        echo "WAZUH_MANAGER_IMAGE=wazuh_manager_filebeat_sources_cmake" >> $GITHUB_ENV
-        echo "WAZUH_AGENT_IMAGE=wazuh_agent_ubuntu_sources_cmake" >> $GITHUB_ENV
-        echo "WAZUH_VERSION=v4.2.0-rc4" >> $GITHUB_ENV
-        echo "ELASTIC_VERSION=7.10.2" >> $GITHUB_ENV
-        
-        echo ${{ github.event.pull_request.body }}
+        echo "WAZUH_MANAGER_IMAGE=$(grep 'WAZUH_MANAGER_IMAGE=*' ${{ github.event.pull_request.body }} | cut -d '=' -f2)" >> $GITHUB_ENV
+        echo "WAZUH_AGENT_IMAGE=$(grep 'WAZUH_AGENT_IMAGE=*' ${{ github.event.pull_request.body }} | cut -d '=' -f2)" >> $GITHUB_ENV
+        echo "WAZUH_VERSION=$(grep 'WAZUH_VERSION=*' ${{ github.event.pull_request.body }} | cut -d '=' -f2)" >> $GITHUB_ENV
+        echo "ELASTIC_VERSION=$(grep 'ELASTIC_VERSION=*' ${{ github.event.pull_request.body }} | cut -d '=' -f2)" >> $GITHUB_ENV
         
         echo "PATH_TEMPLATE_BASIC_CLUSTER_AGENT=$GITHUB_WORKSPACE/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/" >> $GITHUB_ENV
      - name: Step 02 - Download Project wazuh-app-environments 
