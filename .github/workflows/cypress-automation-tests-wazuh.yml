@@ -40,6 +40,8 @@ jobs:
         token: ${{ secrets.TOKEN }}
      - name: Step 02 - Download templates docker environment
        run: |
+        pwd
+        ls -a
         cd wazuh-app-environments/
         mkdir packages
      - name: Step 03 - Configuring templates docker environment
