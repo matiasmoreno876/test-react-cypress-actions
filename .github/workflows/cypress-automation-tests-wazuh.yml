@@ -31,7 +31,7 @@ jobs:
         echo "WAZUH_VERSION=v4.2.0-rc4" >> $GITHUB_ENV
         echo "ELASTIC_VERSION=7.10.2" >> $GITHUB_ENV
         
-        echo "PATH_TEMPLATE_BASIC_CLUSTER_AGENT=./wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/" >> $GITHUB_ENV
+        echo "PATH_TEMPLATE_BASIC_CLUSTER_AGENT=${{ env.GITHUB_WORKSPACE }}/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/" >> $GITHUB_ENV
         
      - name: Step 02 - Download templates docker environment
        run: |
@@ -47,7 +47,7 @@ jobs:
         cat .env
      - name: Step 04 - Starting containers
        run: |
-        cd ./wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
+        cd ${{ env.PATH_TEMPLATE_BASIC_CLUSTER_AGENT }}
         docker-compose up -d
      - name: Step 05 - Building package
        run: |
@@ -61,7 +61,7 @@ jobs:
        run: |
         cd ./wazuh-app-environments/packages/
         PACKAGE_NAME=`ls *.zip`
-        cd $GITHUB_WORKSPACE/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent
+        cd ${{ env.PATH_TEMPLATE_BASIC_CLUSTER_AGENT }}
         docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/${PACKAGE_NAME}
         docker-compose restart kibana
         echo CONTINUA DESPUES DE 20 SEGUNDOS ...
@@ -73,8 +73,6 @@ jobs:
         docker exec es_basic-wz_cluster-agent_kibana_1 cat ./data/wazuh/config/wazuh.yml
         docker exec es_basic-wz_cluster-agent_kibana_1 sed -i -e "s/url: https:\/\/localhost/url: https:\/\/${IP_CONTAINER_MANAGER}/g" ./data/wazuh/config/wazuh.yml
         docker exec es_basic-wz_cluster-agent_kibana_1 cat ./data/wazuh/config/wazuh.yml
-        
-        
      - name: Step 08 - Download Cypress project and install dependency 
        run: |
         git clone https://github.com/wazuh/wazuh-qa.git && cd wazuh-qa/
