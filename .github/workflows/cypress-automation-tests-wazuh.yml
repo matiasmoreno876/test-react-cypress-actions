@@ -37,10 +37,11 @@ jobs:
         mkdir packages
      - name: Step 03 - Configuring templates docker environment
        run: |
-        sed -i -e "s/WAZUH_MANAGER_IMAGE=.*/WAZUH_MANAGER_IMAGE=${{ env.WAZUH_MANAGER_IMAGE }}/g" ./wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
-        sed -i -e "s/WAZUH_AGENT_IMAGE=.*/WAZUH_AGENT_IMAGE=${{ env.WAZUH_AGENT_IMAGE }}/g" ./wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
-        sed -i -e "s/WAZUH_VERSION=.*/WAZUH_VERSION=${{ env.WAZUH_VERSION }}/g" ./wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
-        sed -i -e "s/ELASTIC_VERSION=.*/ELASTIC_VERSION=${{ env.ELASTIC_VERSION }}/g" ./wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/.env
+        cd ./wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/
+        sed -i -e "s/WAZUH_MANAGER_IMAGE=.*/WAZUH_MANAGER_IMAGE=${{ env.WAZUH_MANAGER_IMAGE }}/g" ./.env
+        sed -i -e "s/WAZUH_AGENT_IMAGE=.*/WAZUH_AGENT_IMAGE=${{ env.WAZUH_AGENT_IMAGE }}/g" ./.env
+        sed -i -e "s/WAZUH_VERSION=.*/WAZUH_VERSION=${{ env.WAZUH_VERSION }}/g" ./.env
+        sed -i -e "s/ELASTIC_VERSION=.*/ELASTIC_VERSION=${{ env.ELASTIC_VERSION }}/g" ./.env
         cat .env
      - name: Step 04 - Starting containers
        run: |
