@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.coxxxm/face
 aad
 In the project directory, you can run:asd
 
-### `npm start`wer
+### `npm start`werqweq
 
 Runs the app in the development mode.\qeqweqfd
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
