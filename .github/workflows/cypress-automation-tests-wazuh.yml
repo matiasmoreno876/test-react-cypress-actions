@@ -35,7 +35,7 @@ jobs:
         echo "WAZUH_QA_BRANCH=feature/frontend" >> $GITHUB_ENV
      - name: Step 02 - Download templates docker environment
        run: |
-        git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
+        git clone https://${{ secrets.GITHUB_TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
         mkdir packages
      - name: Step 03 - Configuring templates docker environment
        run: |
