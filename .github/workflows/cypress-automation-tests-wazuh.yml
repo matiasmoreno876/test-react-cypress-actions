@@ -40,8 +40,7 @@ jobs:
         token: ${{ secrets.TOKEN }}
      - name: Step 02 - Download templates docker environment
        run: |
-        ls
-        git clone https://${{ secrets.TOKEN }}@github.com/frankeros/wazuh-app-environments.git && cd wazuh-app-environments/
+        cd wazuh-app-environments/
         mkdir packages
      - name: Step 03 - Configuring templates docker environment
        run: |
