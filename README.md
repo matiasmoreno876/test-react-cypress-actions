@@ -8,7 +8,7 @@ In the project directory, you can run:asd
 
 ### `npm start`wer
 
-Runs the app in the development mode.\qeqweq
+Runs the app in the development mode.\qeqweqfd
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
