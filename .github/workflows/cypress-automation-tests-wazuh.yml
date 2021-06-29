@@ -26,10 +26,10 @@ jobs:
         echo "WAZUH_BASE_BRANCH=4.2-7.10" >> $GITHUB_ENV
         echo "WAZUH_HEAD_BRANCH=${{ github.head_ref }}" >> $GITHUB_ENV
         
-        echo "WAZUH_MANAGER_IMAGE=$(grep 'WAZUH_MANAGER_IMAGE=*' ${{ github.event.pull_request.body }} | cut -d '=' -f2)" >> $GITHUB_ENV
-        echo "WAZUH_AGENT_IMAGE=$(grep 'WAZUH_AGENT_IMAGE=*' ${{ github.event.pull_request.body }} | cut -d '=' -f2)" >> $GITHUB_ENV
-        echo "WAZUH_VERSION=$(grep 'WAZUH_VERSION=*' ${{ github.event.pull_request.body }} | cut -d '=' -f2)" >> $GITHUB_ENV
-        echo "ELASTIC_VERSION=$(grep 'ELASTIC_VERSION=*' ${{ github.event.pull_request.body }} | cut -d '=' -f2)" >> $GITHUB_ENV
+        WAZUH_MANAGER_IMAGE=$(grep 'WAZUH_MANAGER_IMAGE=*' ${{ github.event.pull_request.body }} | cut -d '=' -f2)
+        WAZUH_AGENT_IMAGE=$(grep 'WAZUH_AGENT_IMAGE=*' ${{ github.event.pull_request.body }} | cut -d '=' -f2)
+        WAZUH_VERSION=$(grep 'WAZUH_VERSION=*' ${{ github.event.pull_request.body }} | cut -d '=' -f2)
+        ELASTIC_VERSION=$(grep 'ELASTIC_VERSION=*' ${{ github.event.pull_request.body }} | cut -d '=' -f2)
         
         echo "PATH_TEMPLATE_BASIC_CLUSTER_AGENT=$GITHUB_WORKSPACE/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/" >> $GITHUB_ENV
      - name: Step 02 - Download Project wazuh-app-environments 
@@ -44,10 +44,10 @@ jobs:
         cd $GITHUB_WORKSPACE/wazuh-app-environments/
         mkdir packages
         cd ${{ env.PATH_TEMPLATE_BASIC_CLUSTER_AGENT }}
-        sed -i -e "s/WAZUH_MANAGER_IMAGE=.*/WAZUH_MANAGER_IMAGE=${{ env.WAZUH_MANAGER_IMAGE }}/g" ./.env
-        sed -i -e "s/WAZUH_AGENT_IMAGE=.*/WAZUH_AGENT_IMAGE=${{ env.WAZUH_AGENT_IMAGE }}/g" ./.env
-        sed -i -e "s/WAZUH_VERSION=.*/WAZUH_VERSION=${{ env.WAZUH_VERSION }}/g" ./.env
-        sed -i -e "s/ELASTIC_VERSION=.*/ELASTIC_VERSION=${{ env.ELASTIC_VERSION }}/g" ./.env
+        sed -i -e "s/WAZUH_MANAGER_IMAGE=.*/WAZUH_MANAGER_IMAGE=${{ WAZUH_MANAGER_IMAGE }}/g" ./.env
+        sed -i -e "s/WAZUH_AGENT_IMAGE=.*/WAZUH_AGENT_IMAGE=${{ WAZUH_AGENT_IMAGE }}/g" ./.env
+        sed -i -e "s/WAZUH_VERSION=.*/WAZUH_VERSION=${{ WAZUH_VERSION }}/g" ./.env
+        sed -i -e "s/ELASTIC_VERSION=.*/ELASTIC_VERSION=${{ ELASTIC_VERSION }}/g" ./.env
         cat .env
      - name: Step 04 - Starting containers
        run: |
