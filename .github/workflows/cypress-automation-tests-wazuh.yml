@@ -34,7 +34,7 @@ jobs:
         echo "PATH_TEMPLATE_BASIC_CLUSTER_AGENT=$GITHUB_WORKSPACE/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/" >> $GITHUB_ENV
         echo "WAZUH_QA_BRANCH=feature/frontend" >> $GITHUB_ENV
      - name: Step 02 - Download templates docker environment
-     - uses: actions/checkout@v2
+       uses: actions/checkout@v2
        with:
         repository: frankeros/wazuh-app-environments
         ref: master
