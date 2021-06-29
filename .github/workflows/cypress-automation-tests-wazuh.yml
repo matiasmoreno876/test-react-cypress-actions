@@ -45,6 +45,11 @@ jobs:
         token: ${{ secrets.TOKEN  }}
      - name: Step 03 - Configuring templates docker environment
        run: |
+       
+        echo $WAZUH_MANAGER_IMAGE
+        echo $WAZUH_AGENT_IMAGE
+        
+        
         cd $GITHUB_WORKSPACE/wazuh-app-environments/
         mkdir packages
         cd ${{ env.PATH_TEMPLATE_BASIC_CLUSTER_AGENT }}
