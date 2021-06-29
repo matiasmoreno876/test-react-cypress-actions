@@ -33,11 +33,11 @@ jobs:
         
         echo "PATH_TEMPLATE_BASIC_CLUSTER_AGENT=$GITHUB_WORKSPACE/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/" >> $GITHUB_ENV
         echo "WAZUH_QA_BRANCH=feature/frontend" >> $GITHUB_ENV
-     - name: Step 02 - Download templates docker environment
+     - name: Step 02 - Download Project wazuh-app-environments 
        uses: actions/checkout@v2
        with:
         repository: frankeros/wazuh-app-environments
-        ref: master
+        ref: 'master'
         path: wazuh-app-environments
         token: ${{ secrets.TOKEN  }}
      - name: Step 03 - Configuring templates docker environment
@@ -54,10 +54,16 @@ jobs:
        run: |
         cd ${{ env.PATH_TEMPLATE_BASIC_CLUSTER_AGENT }}
         docker-compose up -d
-     - name: Step 05 - Building package
+     - name: Step 05 - Download Project wazuh-packages 
+       uses: actions/checkout@v2
+       with:
+        repository: wazuh/wazuh-packages
+        ref: '4.2'
+        path: wazuh-packages
+     - name: Step 06 - Building package
        run: |
-        git clone https://github.com/wazuh/wazuh-packages && cd wazuh-packages/wazuhapp
-        git checkout 4.2
+        ls -a 
+        cd wazuh-packages/wazuhapp
         echo fixing command...
         sed -i -e 's/'\|' cut -d \"\/\" \-f2//g' ./generate_wazuh_app.sh 
         echo run command...
