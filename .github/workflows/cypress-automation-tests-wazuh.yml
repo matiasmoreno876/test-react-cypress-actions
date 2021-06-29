@@ -39,7 +39,7 @@ jobs:
         repository: frankeros/wazuh-app-environments
         ref: master
         path: wazuh-app-environments
-        token: ${{ secrets.GITHUB_TOKEN  }}
+        token: ${{ secrets.TOKEN  }}
      - name: Step 03 - Configuring templates docker environment
        run: |
         cd wazuh-app-environments/
