@@ -23,7 +23,6 @@ jobs:
         echo Base Branch: ${{ github.base_ref }}
         echo Head Branch: ${{ github.head_ref }}
         
-        echo "WAZUH_BASE_BRANCH=4.2-7.10" >> $GITHUB_ENV
         echo "WAZUH_HEAD_BRANCH=${{ github.head_ref }}" >> $GITHUB_ENV
         
         echo "${{ github.event.pull_request.body }}" > pull_request.body.txt
@@ -54,7 +53,6 @@ jobs:
      - name: Step 04 - Starting containers
        run: |
         cd ${{ env.PATH_TEMPLATE_BASIC_CLUSTER_AGENT }}
-        ls -a /home/runner/work/test-react-cypress-actions/test-react-cypress-actions/wazuh-app-environments/images/wazuh_manager_filebeat_sources_cmake
         sudo docker-compose up -d
      - name: Step 05 - Download Project wazuh-packages 
        uses: actions/checkout@v2
