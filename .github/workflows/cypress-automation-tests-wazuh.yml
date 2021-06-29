@@ -28,6 +28,12 @@ jobs:
         
         echo "${{ github.event.pull_request.body }}" > pull_request.body.txt
         
+        
+        echo "WAZUH_MANAGER_IMAGE=$(grep 'WAZUH_MANAGER_IMAGE=*' ./pull_request.body.txt | cut -d '=' -f2)" >> $GITHUB_ENV
+        echo "WAZUH_AGENT_IMAGE=$(grep 'WAZUH_AGENT_IMAGE=*' ./pull_request.body.txt | cut -d '=' -f2)" >> $GITHUB_ENV
+        echo "WAZUH_VERSION=$(grep 'WAZUH_VERSION=*' ./pull_request.body.txt | cut -d '=' -f2)" >> $GITHUB_ENV
+        echo "ELASTIC_VERSION=$(grep 'ELASTIC_VERSION=*' ./pull_request.body.txt | cut -d '=' -f2)" >> $GITHUB_ENV
+        
         WAZUH_MANAGER_IMAGE=$(grep 'WAZUH_MANAGER_IMAGE=*' ./pull_request.body.txt | cut -d '=' -f2)
         WAZUH_AGENT_IMAGE=$(grep 'WAZUH_AGENT_IMAGE=*' ./pull_request.body.txt | cut -d '=' -f2)
         WAZUH_VERSION=$(grep 'WAZUH_VERSION=*' ./pull_request.body.txt | cut -d '=' -f2)
@@ -46,6 +52,10 @@ jobs:
        
         echo $WAZUH_MANAGER_IMAGE
         echo $WAZUH_AGENT_IMAGE
+        
+        echo ${{ env.WAZUH_MANAGER_IMAGE }}
+        echo ${{ env.WAZUH_AGENT_IMAGE }}
+        
         cat pull_request.body.txt
         
         cd $GITHUB_WORKSPACE/wazuh-app-environments/
