@@ -2,7 +2,7 @@
 asd
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-# asAvailable Scripts
+# asAvailable Scriptsads
 
 In the project directory, you can run:asd
 
