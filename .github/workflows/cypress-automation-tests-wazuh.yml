@@ -73,7 +73,7 @@ jobs:
         PACKAGE_NAME=`ls *.zip`
         cd ${{ env.PATH_TEMPLATE_BASIC_CLUSTER_AGENT }}
         docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/$PACKAGE_NAME
-        docker-compose restart kibana
+        sudo docker-compose restart kibana
         echo CONTINUES AFTER 20 SECONDS ...
         sleep 20s
      - name: Step 08 - Configuring ip container into wazuh.yml
