@@ -1,4 +1,4 @@
-# Getting Started with Create React A
+# Getting Started with Crea
 asd
 This project was bootstrapped with [Create React App](https://github.coxxxm/facebook/create-react-app).
 
