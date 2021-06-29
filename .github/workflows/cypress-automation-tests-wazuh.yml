@@ -59,19 +59,18 @@ jobs:
         ./generate_wazuh_app.sh -b ${{ env.WAZUH_HEAD_BRANCH }} -s $GITHUB_WORKSPACE/wazuh-app-environments/packages -r 1
      - name: Step 06 - Installing package
        run: |
-        cd ./wazuh-app-environments/packages/
+        cd $GITHUB_WORKSPACE/wazuh-app-environments/packages/
         PACKAGE_NAME=`ls *.zip`
         cd ${{ env.PATH_TEMPLATE_BASIC_CLUSTER_AGENT }}
-        docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/${PACKAGE_NAME}
+        docker exec es_basic-wz_cluster-agent_kibana_1 bin/kibana-plugin install file:///packages/$PACKAGE_NAME
         docker-compose restart kibana
         echo CONTINUA DESPUES DE 20 SEGUNDOS ...
         sleep 20s
      - name: Step 07 - Configuring ip container into wazuh.yml
        run: |
         IP_CONTAINER_MANAGER=$(docker exec es_basic-wz_cluster-agent_wazuh-manager-master_1 hostname -i)
-        echo=${IP_CONTAINER_MANAGER}
         docker exec es_basic-wz_cluster-agent_kibana_1 cat ./data/wazuh/config/wazuh.yml
-        docker exec es_basic-wz_cluster-agent_kibana_1 sed -i -e "s/url: https:\/\/localhost/url: https:\/\/${IP_CONTAINER_MANAGER}/g" ./data/wazuh/config/wazuh.yml
+        docker exec es_basic-wz_cluster-agent_kibana_1 sed -i -e "s/url: https:\/\/localhost/url: https:\/\/$IP_CONTAINER_MANAGER/g" ./data/wazuh/config/wazuh.yml
         docker exec es_basic-wz_cluster-agent_kibana_1 cat ./data/wazuh/config/wazuh.yml
      - name: Step 08 - Download Cypress project and install dependency 
        run: |
