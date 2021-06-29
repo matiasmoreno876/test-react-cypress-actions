@@ -11,7 +11,7 @@ In the project directory, you can run:asdasdadasds
 Runs the app in the development mode.\qeqweqfd
 Open [http://localhost:3000](http://localhost:3000) to view it in tadsasdasdshe browser.
 
-The page will reload if you make edits.\
+The page will reload if you make editsad
 You will also see any lint errors in the console.
 
 ### `npm test`
