@@ -33,6 +33,12 @@ jobs:
         echo "WAZUH_VERSION=$(grep 'WAZUH_VERSION=*' ./pull_request.body.txt | cut -d '=' -f2)" >> $GITHUB_ENV
         echo "ELASTIC_VERSION=$(grep 'ELASTIC_VERSION=*' ./pull_request.body.txt | cut -d '=' -f2)" >> $GITHUB_ENV
         
+        echo "WAZUH_MANAGER_IMAGE2=wazuh_manager_filebeat_sources_cmake" >> $GITHUB_ENV
+        echo "WAZUH_AGENT_IMAGE2=wazuh_agent_ubuntu_sources_cmake" >> $GITHUB_ENV
+        echo "WAZUH_VERSION2=v4.2.0-rc4" >> $GITHUB_ENV
+        echo "ELASTIC_VERSION2=7.10.2" >> $GITHUB_ENV
+        
+        
         echo "PATH_TEMPLATE_BASIC_CLUSTER_AGENT=$GITHUB_WORKSPACE/wazuh-app-environments/templates_elastic_prod/es_basic-wz_cluster-agent/" >> $GITHUB_ENV
      - name: Step 02 - Download Project wazuh-app-environments 
        uses: actions/checkout@v2
@@ -46,14 +52,15 @@ jobs:
         cd $GITHUB_WORKSPACE/wazuh-app-environments/
         mkdir packages
         cd ${{ env.PATH_TEMPLATE_BASIC_CLUSTER_AGENT }}
-        sed -i -e "s/WAZUH_MANAGER_IMAGE=.*/WAZUH_MANAGER_IMAGE=${{ env.WAZUH_MANAGER_IMAGE }}/g" ./.env
-        sed -i -e "s/WAZUH_AGENT_IMAGE=.*/WAZUH_AGENT_IMAGE=${{ env.WAZUH_AGENT_IMAGE }}/g" ./.env
-        sed -i -e "s/WAZUH_VERSION=.*/WAZUH_VERSION=${{ env.WAZUH_VERSION }}/g" ./.env
-        sed -i -e "s/ELASTIC_VERSION=.*/ELASTIC_VERSION=${{ env.ELASTIC_VERSION }}/g" ./.env
+        sed -i -e "s/WAZUH_MANAGER_IMAGE=.*/WAZUH_MANAGER_IMAGE=${{ env.WAZUH_MANAGER_IMAGE2 }}/g" ./.env
+        sed -i -e "s/WAZUH_AGENT_IMAGE=.*/WAZUH_AGENT_IMAGE=${{ env.WAZUH_AGENT_IMAGE2 }}/g" ./.env
+        sed -i -e "s/WAZUH_VERSION=.*/WAZUH_VERSION=${{ env.WAZUH_VERSION2 }}/g" ./.env
+        sed -i -e "s/ELASTIC_VERSION=.*/ELASTIC_VERSION=${{ env.ELASTIC_VERSION2 }}/g" ./.env
         cat .env
      - name: Step 04 - Starting containers
        run: |
         cd ${{ env.PATH_TEMPLATE_BASIC_CLUSTER_AGENT }}
+        cat ./.env
         docker-compose up -d
      - name: Step 05 - Download Project wazuh-packages 
        uses: actions/checkout@v2
