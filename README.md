@@ -1,10 +1,4 @@
-# Getting Started with Crea
-asd
-This project was bootstrapped with [Create React App](https://github.coxxxm/facebook/create-react-app).
 
-# asAvailable Scriptsadsdasdasda
-aadm.m.m
-In the project directory, you can run:asdasdadasdsqweqweqevssdfsdfdsf
 
 ### `npm start`werqweqqweqe
 adasdad
