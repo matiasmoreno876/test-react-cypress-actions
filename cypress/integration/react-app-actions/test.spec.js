@@ -16,6 +16,6 @@ context('Test Elements visible in DOM', () => {
         cy.get('h1')
             .should('exist')
             .should('be.visible')
-            .should('have.text','Esto es una prueba numero 4')
+            .should('have.text','Esto es una prueba numero 595')
     })
 })
